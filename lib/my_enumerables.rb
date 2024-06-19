@@ -1,8 +1,9 @@
 module Enumerable
   # Your code goes here
   def my_each_with_index
-    index = 0
+    return self unless block_given?
 
+    index = 0
     for element in self
       yield(element, index)
       index += 1
@@ -10,6 +11,8 @@ module Enumerable
   end
 
   def my_select
+    return self unless block_given?
+
     arr = Array.new
     for element in self
       arr.push(element) if yield(element)
@@ -19,6 +22,8 @@ module Enumerable
   end
 
   def my_all?
+    return true unless block_given?
+
     for element in self
       return false unless yield(element)
     end
@@ -27,6 +32,8 @@ module Enumerable
   end
 
   def my_any?
+    return true unless block_given?
+
     for element in self
       return true if yield(element)
     end
@@ -35,6 +42,8 @@ module Enumerable
   end
 
   def my_none?
+    return false unless block_given?
+
     for element in self
       return false if yield(element)
     end
@@ -56,6 +65,8 @@ module Enumerable
   end
 
   def my_map
+    return self unless block_given?
+
     arr = Array.new
     for element in self
       arr.push(yield(element))
@@ -64,7 +75,7 @@ module Enumerable
     arr
   end
 
-  def my_inject(default = 0)
+  def my_inject(default)
     accumulator = default
     for element in self
       accumulator = yield(accumulator, element)
