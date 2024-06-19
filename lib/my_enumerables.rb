@@ -14,9 +14,7 @@ module Enumerable
     return self unless block_given?
 
     arr = Array.new
-    for element in self
-      arr.push(element) if yield(element)
-    end
+    my_each { |element| arr.push(element) if yield(element) }
 
     arr
   end
@@ -24,9 +22,7 @@ module Enumerable
   def my_all?
     return true unless block_given?
 
-    for element in self
-      return false unless yield(element)
-    end
+    my_each { |element| return false unless yield(element) }
 
     true
   end
@@ -34,9 +30,7 @@ module Enumerable
   def my_any?
     return true unless block_given?
 
-    for element in self
-      return true if yield(element)
-    end
+    my_each { |element| return true if yield(element) }
 
     false
   end
@@ -44,16 +38,14 @@ module Enumerable
   def my_none?
     return false unless block_given?
 
-    for element in self
-      return false if yield(element)
-    end
+    my_each { |element| return false if yield(element) }
 
     true
   end
 
   def my_count
     count = 0
-    for element in self
+    my_each do |element|
       if block_given?
         next unless yield(element)
       end
@@ -68,18 +60,14 @@ module Enumerable
     return self unless block_given?
 
     arr = Array.new
-    for element in self
-      arr.push(yield(element))
-    end
+    my_each { |element| arr.push(yield(element)) }
 
     arr
   end
 
   def my_inject(default)
     accumulator = default
-    for element in self
-      accumulator = yield(accumulator, element)
-    end
+    my_each { |element| accumulator = yield(accumulator, element) }
 
     accumulator
   end
